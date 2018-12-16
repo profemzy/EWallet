@@ -5,107 +5,112 @@ import java.util.Date;
 
 import io.swagger.annotations.ApiModelProperty;
 
+/**
+ * @author Deepak Garg
+ *
+ */
 
+/** Client Facing Model of Transaction **/
 public class UserAccountDTO {
 
 	@ApiModelProperty(required = false, hidden = true)
-    private Long id;
-	
-    private String userName;
-    private String email;
-    private Date dateCreated;
-    
-    @ApiModelProperty(required = false, hidden = true)
-    private BigDecimal balance;
+	private Long id;
 
-    public UserAccountDTO() {
-    }
+	private String userName;
+	private String email;
+	private Date dateCreated;
 
-    public UserAccountDTO(UserAccountDTOBuilder builder) {
-        id = builder.id;
-        userName = builder.userName;
-        email = builder.email;
-        dateCreated = builder.dateCreated;
-        balance = builder.balance;
-    }
+	@ApiModelProperty(required = false, hidden = true)
+	private BigDecimal balance;
 
-    public Long getId() {
-        return id;
-    }
+	public UserAccountDTO() {
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public UserAccountDTO(UserAccountDTOBuilder builder) {
+		id = builder.id;
+		userName = builder.userName;
+		email = builder.email;
+		dateCreated = builder.dateCreated;
+		balance = builder.balance;
+	}
 
-    public String getUserName() {
-        return userName;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	public String getUserName() {
+		return userName;
+	}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 
-    public Date getDateCreated() {
-        return dateCreated;
-    }
+	public String getEmail() {
+		return email;
+	}
 
-    public void setDateCreated(Date dateCreated) {
-        this.dateCreated = dateCreated;
-    }
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-    public BigDecimal getBalance() {
-        return balance;
-    }
+	public Date getDateCreated() {
+		return dateCreated;
+	}
 
-    public void setBalance(BigDecimal balance) {
-        this.balance = balance;
-    }
+	public void setDateCreated(Date dateCreated) {
+		this.dateCreated = dateCreated;
+	}
 
-    public static class UserAccountDTOBuilder {
+	public BigDecimal getBalance() {
+		return balance;
+	}
 
-        private Long id;
-        private String userName;
-        private String email;
-        private Date dateCreated;
-        private BigDecimal balance;
+	public void setBalance(BigDecimal balance) {
+		this.balance = balance;
+	}
 
-        public UserAccountDTOBuilder setId(Long id) {
-            this.id = id;
-            return this;
-        }
+	public static class UserAccountDTOBuilder {
 
-        public UserAccountDTOBuilder setUserName(String userName) {
-            this.userName = userName;
-            return this;
-        }
+		private Long id;
+		private String userName;
+		private String email;
+		private Date dateCreated;
+		private BigDecimal balance;
 
-        public UserAccountDTOBuilder setEmail(String email) {
-            this.email = email;
-            return this;
-        }
+		public UserAccountDTOBuilder setId(Long id) {
+			this.id = id;
+			return this;
+		}
 
-        public UserAccountDTOBuilder setDateCreated(Date dateCreated) {
-            this.dateCreated = dateCreated;
-            return this;
-        }
+		public UserAccountDTOBuilder setUserName(String userName) {
+			this.userName = userName;
+			return this;
+		}
 
-        public UserAccountDTOBuilder setBalance(BigDecimal balance) {
-            this.balance = balance;
-            return this;
-        }
+		public UserAccountDTOBuilder setEmail(String email) {
+			this.email = email;
+			return this;
+		}
 
-        public UserAccountDTO build() {
-            return new UserAccountDTO(this);
-        }
+		public UserAccountDTOBuilder setDateCreated(Date dateCreated) {
+			this.dateCreated = dateCreated;
+			return this;
+		}
 
-    }
+		public UserAccountDTOBuilder setBalance(BigDecimal balance) {
+			this.balance = balance;
+			return this;
+		}
+
+		public UserAccountDTO build() {
+			return new UserAccountDTO(this);
+		}
+
+	}
 
 }

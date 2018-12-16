@@ -5,122 +5,128 @@ import java.util.Date;
 
 import io.swagger.annotations.ApiModelProperty;
 
+/**
+ * @author Deepak Garg
+ *
+ */
+
+/** Client Facing Model of Transaction **/
 public class TransactionDTO {
 
 	@ApiModelProperty(required = false, hidden = true)
-    private Long id;
-    
-    @ApiModelProperty(required = false, hidden = true)
-    private Long userAccountId;
-    
-    private BigDecimal amount;
-    private String details;
-    private Date transactionDate;
-    private Long transactionReference;
+	private Long id;
 
-    public TransactionDTO() {
-    }
+	@ApiModelProperty(required = false, hidden = true)
+	private Long userAccountId;
 
-    public TransactionDTO(TransactionDTOBuilder builder) {
-        id = builder.id;
-        userAccountId = builder.userAccountId;
-        amount = builder.amount;
-        details = builder.details;
-        transactionDate = builder.transactionDate;
-        transactionReference = builder.transactionReference;
-    }
+	private BigDecimal amount;
+	private String details;
+	private Date transactionDate;
+	private Long transactionReference;
 
-    public Long getId() {
-        return id;
-    }
+	public TransactionDTO() {
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public TransactionDTO(TransactionDTOBuilder builder) {
+		id = builder.id;
+		userAccountId = builder.userAccountId;
+		amount = builder.amount;
+		details = builder.details;
+		transactionDate = builder.transactionDate;
+		transactionReference = builder.transactionReference;
+	}
 
-    public Long getUserAccountId() {
-        return userAccountId;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public void setUserAccountId(Long userAccountId) {
-        this.userAccountId = userAccountId;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public BigDecimal getAmount() {
-        return amount;
-    }
+	public Long getUserAccountId() {
+		return userAccountId;
+	}
 
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
-    }
+	public void setUserAccountId(Long userAccountId) {
+		this.userAccountId = userAccountId;
+	}
 
-    public String getDetails() {
-        return details;
-    }
+	public BigDecimal getAmount() {
+		return amount;
+	}
 
-    public void setDetails(String details) {
-        this.details = details;
-    }
+	public void setAmount(BigDecimal amount) {
+		this.amount = amount;
+	}
 
-    public Date getTransactionDate() {
-        return transactionDate;
-    }
+	public String getDetails() {
+		return details;
+	}
 
-    public void setTransactionDate(Date transactionDate) {
-        this.transactionDate = transactionDate;
-    }
+	public void setDetails(String details) {
+		this.details = details;
+	}
 
-    public Long getTransactionReference() {
-        return transactionReference;
-    }
+	public Date getTransactionDate() {
+		return transactionDate;
+	}
 
-    public void setTransactionReference(Long transactionReference) {
-        this.transactionReference = transactionReference;
-    }
+	public void setTransactionDate(Date transactionDate) {
+		this.transactionDate = transactionDate;
+	}
 
-    public static class TransactionDTOBuilder {
+	public Long getTransactionReference() {
+		return transactionReference;
+	}
 
-        private Long id;
-        private Long userAccountId;
-        private BigDecimal amount;
-        private String details;
-        private Date transactionDate;
-        private Long transactionReference;
+	public void setTransactionReference(Long transactionReference) {
+		this.transactionReference = transactionReference;
+	}
 
-        public TransactionDTOBuilder setId(Long id) {
-            this.id = id;
-            return this;
-        }
+	public static class TransactionDTOBuilder {
 
-        public TransactionDTOBuilder setUserAccountId(Long userAccountId) {
-            this.userAccountId = userAccountId;
-            return this;
-        }
+		private Long id;
+		private Long userAccountId;
+		private BigDecimal amount;
+		private String details;
+		private Date transactionDate;
+		private Long transactionReference;
 
-        public TransactionDTOBuilder setAmount(BigDecimal amount) {
-            this.amount = amount;
-            return this;
-        }
+		public TransactionDTOBuilder setId(Long id) {
+			this.id = id;
+			return this;
+		}
 
-        public TransactionDTOBuilder setDetails(String details) {
-            this.details = details;
-            return this;
-        }
+		public TransactionDTOBuilder setUserAccountId(Long userAccountId) {
+			this.userAccountId = userAccountId;
+			return this;
+		}
 
-        public TransactionDTOBuilder setTransactionDate(Date transactionDate) {
-            this.transactionDate = transactionDate;
-            return this;
-        }
+		public TransactionDTOBuilder setAmount(BigDecimal amount) {
+			this.amount = amount;
+			return this;
+		}
 
-        public TransactionDTOBuilder setTransactionReference(Long transactionReference) {
-            this.transactionReference = transactionReference;
-            return this;
-        }
+		public TransactionDTOBuilder setDetails(String details) {
+			this.details = details;
+			return this;
+		}
 
-        public TransactionDTO build() {
-            return new TransactionDTO(this);
-        }
+		public TransactionDTOBuilder setTransactionDate(Date transactionDate) {
+			this.transactionDate = transactionDate;
+			return this;
+		}
 
-    }
+		public TransactionDTOBuilder setTransactionReference(Long transactionReference) {
+			this.transactionReference = transactionReference;
+			return this;
+		}
+
+		public TransactionDTO build() {
+			return new TransactionDTO(this);
+		}
+
+	}
 
 }

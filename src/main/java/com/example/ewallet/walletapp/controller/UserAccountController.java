@@ -19,6 +19,7 @@ import com.example.ewallet.datatransferobject.TransactionDTO;
 import com.example.ewallet.datatransferobject.UserAccountDTO;
 import com.example.ewallet.datatransferobject.mapper.TransactionMapper;
 import com.example.ewallet.datatransferobject.mapper.UserAccountMapper;
+import com.example.ewallet.exceptions.UserNotFoundException;
 import com.example.ewallet.models.Transaction;
 import com.example.ewallet.models.UserAccount;
 import com.example.ewallet.service.TransactionService;
@@ -49,7 +50,7 @@ public class UserAccountController {
 		UserAccount userAccount;
 		try {
 			userAccount = userAccountService.userAccountByPK(id);
-		} catch (Exception ex) {
+		} catch (UserNotFoundException ex) {
 			Logger.getLogger(UserAccountController.class.getName()).log(Level.SEVERE, null, ex);
 			return new ResponseEntity<String>(ex.getMessage(), HttpStatus.NOT_FOUND);
 		}
@@ -72,7 +73,8 @@ public class UserAccountController {
 
 	@PutMapping("/{id}")
 	@ApiOperation(value = "update User by id", response = UserAccountDTO.class)
-	public ResponseEntity updateUser(@PathVariable("id") Long userAccountId, @RequestBody UserAccountDTO userAccountDTO) {
+	public ResponseEntity updateUser(@PathVariable("id") Long userAccountId,
+			@RequestBody UserAccountDTO userAccountDTO) {
 		UserAccount saved;
 		try {
 			saved = userAccountService.update(UserAccountMapper.dtoToDO(userAccountDTO), userAccountId);

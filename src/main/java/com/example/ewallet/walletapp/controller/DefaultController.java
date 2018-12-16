@@ -9,10 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
-public class DefaultController implements ErrorController{
+public class DefaultController implements ErrorController {
 
-	@RequestMapping(value="/error",method=RequestMethod.GET,
-			produces=MediaType.TEXT_PLAIN_VALUE)
+	@RequestMapping(value = "/error", method = RequestMethod.GET, produces = MediaType.TEXT_PLAIN_VALUE)
 	@ApiOperation(value = "Link to swagger", notes = "Goto localhost:8080/swagger-ui.html", response = String.class)
 	public String handleError() {
 		return "Goto localhost:8080/swagger-ui.html";

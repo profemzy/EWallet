@@ -14,7 +14,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.ewallet.dataaccessrepository.TransactionRepository;
 import com.example.ewallet.datatransferobject.TransactionDTO;
 import com.example.ewallet.datatransferobject.mapper.TransactionMapper;
+import com.example.ewallet.exceptions.BalanceLowException;
+import com.example.ewallet.exceptions.UserNotFoundException;
 import com.example.ewallet.models.Transaction;
+import com.example.ewallet.models.UserAccount;
 import com.example.ewallet.service.TransactionService;
 import com.example.ewallet.service.UserAccountService;
 import com.google.common.collect.Lists;
@@ -23,77 +26,82 @@ import com.google.common.collect.Lists;
 @Transactional
 public class TransactionServiceImpl implements TransactionService {
 
-    @Autowired
-    private TransactionRepository transactionRepository;
-    @Autowired
-    private UserAccountService accountService;
+	@Autowired
+	private TransactionRepository transactionRepository;
+	@Autowired
+	private UserAccountService accountService;
 
-    /**
-     * retrieve transactions by their transaction reference this operations is
-     * used to validate if a transaction ref has been used previously
-     */
-    @Override
-    public Transaction transactionByRef(Long txnRef) throws Exception {
-        return transactionRepository.getTransactionByRef(txnRef).
-                orElseThrow(() -> new Exception(String.format("transaction with ref '%d' doesnt exist", txnRef)));
-    }
+	/**
+	 * retrieve transactions by their transaction reference this operations is used
+	 * to validate if a transaction ref has been used previously
+	 */
+	@Override
+	public Transaction transactionByRef(Long txnRef) throws Exception {
+		return transactionRepository.getTransactionByRef(txnRef)
+				.orElseThrow(() -> new Exception(String.format("transaction with ref '%d' doesnt exist", txnRef)));
+	}
 
-    /**
-     * this operations registers a transaction on behalf of user
-     * debit/credits, it also validates if a user has insufficient funds if a
-     * debit is to be made
-     */
-    @Override
-    @Transactional(rollbackFor=RuntimeException.class)
-    public Transaction createTransaction(Transaction transaction) throws Exception {
+	/**
+	 * this operations registers a transaction on behalf of user debit/credits, it
+	 * also validates if a user has insufficient funds if a debit is to be made
+	 */
+	@Override
+	@Transactional(rollbackFor = RuntimeException.class)
+	public Transaction createTransaction(Transaction transaction) throws Exception {
 
-        BigDecimal balance = transactionRepository.getBalance(transaction.getUserAccount().getId());
+		BigDecimal balance = transactionRepository.getBalance(transaction.getUserAccount().getId());
 
-        if (balance.add(transaction.getAmount()).compareTo(BigDecimal.ZERO) == 1
-                | balance.add(transaction.getAmount()).compareTo(BigDecimal.ZERO) == 0) {
-            return transactionRepository.save(transaction);
-        }
+		if (balance.add(transaction.getAmount()).compareTo(BigDecimal.ZERO) >= 0) {
+			return transactionRepository.save(transaction);
+		}
 
-        throw new Exception(String.format("user's balance is %.2f and cannot perform a transaction of %.2f ",
-                balance.doubleValue(), transaction.getAmount().doubleValue()));
+		throw new BalanceLowException(String.format("user's balance is %.2f and cannot perform a transaction of %.2f ",
+				balance.doubleValue(), transaction.getAmount().doubleValue()));
 
-    }
+	}
 
-    @Override
-    public Transaction update(Transaction transaction, Long id) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+	@Override
+	public Transaction update(Transaction transaction, Long id) throws Exception {
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
 
-    @Override
-    public List<Transaction> getList() {
-        return Lists.newArrayList(transactionRepository.findAll());
-    }
+	@Override
+	public List<Transaction> getList() {
+		return Lists.newArrayList(transactionRepository.findAll());
+	}
 
-    @Override
-    public List<Transaction> transactionsByUserAccountID(Long accountId) {
-        return transactionRepository.getTransactionsForUser(accountId);
-    }
+	@Override
+	public List<Transaction> transactionsByUserAccountID(Long accountId) {
+		return transactionRepository.getTransactionsForUser(accountId);
+	}
 
-    @Override
-    public BigDecimal balanceByUserAccountID(Long accountId) {
-        return transactionRepository.getBalance(accountId);
-    }
+	@Override
+	public BigDecimal balanceByUserAccountID(Long accountId) {
+		return transactionRepository.getBalance(accountId);
+	}
 
-    @Override
-    public List<Transaction> transactions() {
-        return Lists.newArrayList(transactionRepository.findAll());
-    }
+	@Override
+	public List<Transaction> transactions() {
+		return Lists.newArrayList(transactionRepository.findAll());
+	}
 
-    @Override
-    public Transaction save(Transaction transaction) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-    
-    @Transactional(rollbackFor=RuntimeException.class)
-    public List<Transaction> transfer(TransactionDTO walletDTO,Long toUserAccountId,Long fromUserAccountId) {
-    	List<Transaction> transactions= new ArrayList<>();
-    	
-    	Transaction sourceUserTransaction;
+	@Override
+	public Transaction save(Transaction transaction) throws Exception {
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
+
+	@Transactional(rollbackFor = RuntimeException.class)
+	public List<Transaction> transfer(TransactionDTO walletDTO, Long toUserAccountId, Long fromUserAccountId) {
+		List<Transaction> transactions = new ArrayList<>();
+
+		try {
+			UserAccount a = accountService.userAccountByPK(fromUserAccountId);
+			UserAccount b = accountService.userAccountByPK(toUserAccountId);
+		} catch (UserNotFoundException e) {
+			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
+			transactions = Collections.emptyList();
+		}
+		Transaction sourceUserTransaction;
 		Transaction destinationUserTransaction;
 		try {
 
@@ -101,17 +109,17 @@ public class TransactionServiceImpl implements TransactionService {
 			walletDTO.setAmount(walletDTO.getAmount().negate());
 			sourceUserTransaction = createTransaction(TransactionMapper.dtoToDO(walletDTO));
 			transactions.add(sourceUserTransaction);
-			
+
 			walletDTO.setUserAccountId(toUserAccountId);
 			walletDTO.setAmount(walletDTO.getAmount().negate());
 			destinationUserTransaction = createTransaction(TransactionMapper.dtoToDO(walletDTO));
 			transactions.add(destinationUserTransaction);
-			
+
 		} catch (Exception ex) {
 			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-			transactions= Collections.emptyList();
-		} 
+			transactions = Collections.emptyList();
+		}
 		return transactions;
-    }
+	}
 
 }

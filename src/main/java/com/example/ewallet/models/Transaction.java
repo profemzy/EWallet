@@ -3,181 +3,180 @@ package com.example.ewallet.models;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Objects;
-import javax.persistence.Column;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
-import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 
 @Entity
 public class Transaction {
 
-    @Id
-    @GeneratedValue
-    private Long id;
-    @ManyToOne
-    private UserAccount userAccount;
-    @NotNull
-    private BigDecimal amount;
-    private String details;
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date transactionDate;
-    @NotNull
-    private Long transactionReference;
-    //@Version //for concurrency
-    private int version;
+	@Id
+	@GeneratedValue
+	private Long id;
+	@ManyToOne
+	private UserAccount userAccount;
+	@NotNull
+	private BigDecimal amount;
 
-    public Transaction() {
-    }
+	/** Purpose of Transaction */
+	private String details;
 
-    public Transaction(UserAccount userAccount, BigDecimal amount, String details, Date transactionDate, Long transactionReference) {
-        this.userAccount = userAccount;
-        this.amount = amount;
-        this.details = details;
-        this.transactionDate = transactionDate;
-        this.transactionReference = transactionReference;
-    }
-    
-    
+	@Temporal(javax.persistence.TemporalType.DATE)
+	private Date transactionDate;
+	@NotNull
+	private Long transactionReference;
+	// @Version //for concurrency
+	private int version;
 
-    public Transaction(TransactionBuilder builder) {
-        id = builder.id;
-        userAccount = new UserAccount(builder.userAccountId);
-        amount = builder.amount;
-        details = builder.details;
-        transactionDate = builder.transactionDate;
-        transactionReference = builder.transactionReference;
-    }
+	public Transaction() {
+	}
 
-    public Long getId() {
-        return id;
-    }
+	public Transaction(UserAccount userAccount, BigDecimal amount, String details, Date transactionDate,
+			Long transactionReference) {
+		this.userAccount = userAccount;
+		this.amount = amount;
+		this.details = details;
+		this.transactionDate = transactionDate;
+		this.transactionReference = transactionReference;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public Transaction(TransactionBuilder builder) {
+		id = builder.id;
+		userAccount = new UserAccount(builder.userAccountId);
+		amount = builder.amount;
+		details = builder.details;
+		transactionDate = builder.transactionDate;
+		transactionReference = builder.transactionReference;
+	}
 
-    public UserAccount getUserAccount() {
-        return userAccount;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public void setUserAccount(UserAccount userAccount) {
-        this.userAccount = userAccount;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public BigDecimal getAmount() {
-        return amount;
-    }
+	public UserAccount getUserAccount() {
+		return userAccount;
+	}
 
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
-    }
+	public void setUserAccount(UserAccount userAccount) {
+		this.userAccount = userAccount;
+	}
 
-    public String getDetails() {
-        return details;
-    }
+	public BigDecimal getAmount() {
+		return amount;
+	}
 
-    public void setDetails(String details) {
-        this.details = details;
-    }
+	public void setAmount(BigDecimal amount) {
+		this.amount = amount;
+	}
 
-    public Date getTransactionDate() {
-        return transactionDate;
-    }
+	public String getDetails() {
+		return details;
+	}
 
-    public void setTransactionDate(Date transactionDate) {
-        this.transactionDate = transactionDate;
-    }
+	public void setDetails(String details) {
+		this.details = details;
+	}
 
-    public Long getTransactionReference() {
-        return transactionReference;
-    }
+	public Date getTransactionDate() {
+		return transactionDate;
+	}
 
-    public void setTransactionReference(Long transactionReference) {
-        this.transactionReference = transactionReference;
-    }
+	public void setTransactionDate(Date transactionDate) {
+		this.transactionDate = transactionDate;
+	}
 
-    public int getVersion() {
-        return version;
-    }
+	public Long getTransactionReference() {
+		return transactionReference;
+	}
 
-    public void setVersion(int version) {
-        this.version = version;
-    }
-    
-    
+	public void setTransactionReference(Long transactionReference) {
+		this.transactionReference = transactionReference;
+	}
 
-    @Override
-    public int hashCode() {
-        int hash = 5;
-        hash = 37 * hash + Objects.hashCode(this.id);
-        return hash;
-    }
+	public int getVersion() {
+		return version;
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Transaction other = (Transaction) obj;
-        if (!Objects.equals(this.id, other.id)) {
-            return false;
-        }
-        return true;
-    }
+	public void setVersion(int version) {
+		this.version = version;
+	}
 
-    public static class TransactionBuilder {
+	@Override
+	public int hashCode() {
+		int hash = 5;
+		hash = 37 * hash + Objects.hashCode(this.id);
+		return hash;
+	}
 
-        private Long id;
-        private Long userAccountId;
-        private BigDecimal amount;
-        private String details;
-        private Date transactionDate;
-        private Long transactionReference;
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		final Transaction other = (Transaction) obj;
+		if (!Objects.equals(this.id, other.id)) {
+			return false;
+		}
+		return true;
+	}
 
-        public TransactionBuilder setId(Long id) {
-            this.id = id;
-            return this;
-        }
+	public static class TransactionBuilder {
 
-        public TransactionBuilder setUserAccount(Long userAccountId) {
-            this.userAccountId = userAccountId;
-            return this;
-        }
+		private Long id;
+		private Long userAccountId;
+		private BigDecimal amount;
+		private String details;
+		private Date transactionDate;
+		private Long transactionReference;
 
-        public TransactionBuilder setAmount(BigDecimal amount) {
-            this.amount = amount;
-            return this;
-        }
+		public TransactionBuilder setId(Long id) {
+			this.id = id;
+			return this;
+		}
 
-        public TransactionBuilder setDetails(String details) {
-            this.details = details;
-            return this;
-        }
+		public TransactionBuilder setUserAccount(Long userAccountId) {
+			this.userAccountId = userAccountId;
+			return this;
+		}
 
-        public TransactionBuilder setTransactionDate(Date transactionDate) {
-            this.transactionDate = transactionDate;
-            return this;
-        }
+		public TransactionBuilder setAmount(BigDecimal amount) {
+			this.amount = amount;
+			return this;
+		}
 
-        public TransactionBuilder setTransactionReference(Long transactionReference) {
-            this.transactionReference = transactionReference;
-            return this;
-        }
+		public TransactionBuilder setDetails(String details) {
+			this.details = details;
+			return this;
+		}
 
-        public Transaction build() {
-            return new Transaction(this);
-        }
+		public TransactionBuilder setTransactionDate(Date transactionDate) {
+			this.transactionDate = transactionDate;
+			return this;
+		}
 
-    }
+		public TransactionBuilder setTransactionReference(Long transactionReference) {
+			this.transactionReference = transactionReference;
+			return this;
+		}
+
+		public Transaction build() {
+			return new Transaction(this);
+		}
+
+	}
 
 }

@@ -6,14 +6,74 @@ import java.util.List;
 import com.example.ewallet.datatransferobject.TransactionDTO;
 import com.example.ewallet.models.Transaction;
 
+/**
+ * @author Deepak Garg
+ *
+ */
+
+/** Service for Transaction */
 public interface TransactionService {
+
+	/**
+	 * Save a transaction
+	 * 
+	 * @param t
+	 * @return
+	 * @throws Exception
+	 */
 	Transaction save(Transaction t) throws Exception;
-	Transaction update(Transaction t,Long id) throws Exception ;
+
+	/**
+	 * Update a transaction
+	 * 
+	 * @param t
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	Transaction update(Transaction t, Long id) throws Exception;
+
+	/**
+	 * @return list of transactions
+	 */
 	List<Transaction> getList();
-	List<Transaction> transactionsByUserAccountID(Long accountId)  throws Exception;
-	Transaction transactionByRef(Long txnRef)  throws Exception;
-	BigDecimal balanceByUserAccountID(Long accountId)  throws Exception;
+
+	/**
+	 * gets list of transactions by account id
+	 * 
+	 * @param accountId
+	 * @return transaction
+	 * @throws Exception
+	 */
+	List<Transaction> transactionsByUserAccountID(Long accountId) throws Exception;
+
+	/**
+	 * gets transaction by ref id
+	 * 
+	 * @param transaction reference id
+	 * @return transaction
+	 * @throws Exception
+	 */
+	Transaction transactionByRef(Long txnRef) throws Exception;
+
+	/**
+	 * @param accountId
+	 * @return balance of user
+	 * @throws Exception
+	 */
+	BigDecimal balanceByUserAccountID(Long accountId) throws Exception;
+
 	List<Transaction> transactions();
+
 	Transaction createTransaction(Transaction txn) throws Exception;
-	List<Transaction> transfer(TransactionDTO walletDTO,Long toUserAccountId,Long fromUserAccountId);
+
+	/**
+	 * Transfer Money from one user to other
+	 * 
+	 * @param transaction       details
+	 * @param toUserAccountId
+	 * @param fromUserAccountId
+	 * @return list of parties involved if successful
+	 */
+	List<Transaction> transfer(TransactionDTO walletDTO, Long toUserAccountId, Long fromUserAccountId);
 }
