@@ -24,6 +24,8 @@ import com.example.ewallet.models.UserAccount;
 import com.example.ewallet.service.TransactionService;
 import com.example.ewallet.service.UserAccountService;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping("v1/users")
 public class UserAccountController {
@@ -35,12 +37,14 @@ public class UserAccountController {
 	private TransactionService transactionService;
 
 	@GetMapping
+	@ApiOperation(value = "Get All users ", response = List.class)
 	public ResponseEntity getUsers() {
 		List<UserAccount> userAccounts = userAccountService.getList();
 		return new ResponseEntity<List<UserAccountDTO>>(UserAccountMapper.doToDTOList(userAccounts), HttpStatus.OK);
 	}
 
 	@GetMapping("/{id}")
+	@ApiOperation(value = "Get User by id", response = UserAccountDTO.class)
 	public ResponseEntity getUser(@PathVariable("id") Long id) {
 		UserAccount userAccount;
 		try {
@@ -54,6 +58,7 @@ public class UserAccountController {
 	}
 
 	@PostMapping
+	@ApiOperation(value = "create User", response = UserAccountDTO.class)
 	public ResponseEntity createUser(@RequestBody UserAccountDTO userAccountDTO) {
 		UserAccount saved;
 		try {
@@ -66,6 +71,7 @@ public class UserAccountController {
 	}
 
 	@PutMapping("/{id}")
+	@ApiOperation(value = "update User by id", response = UserAccountDTO.class)
 	public ResponseEntity updateUser(@PathVariable("id") Long userAccountId, @RequestBody UserAccountDTO userAccountDTO) {
 		UserAccount saved;
 		try {
@@ -78,6 +84,7 @@ public class UserAccountController {
 	}
 
 	@GetMapping("/{id}/passbook")
+	@ApiOperation(value = "get PassBook by UserId", response = List.class, tags = "getPassBook")
 	public ResponseEntity getUserPassbook(@PathVariable("id") Long id) {
 		List<Transaction> passbook;
 		try {

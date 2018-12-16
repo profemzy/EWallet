@@ -1,5 +1,6 @@
 package com.example.ewallet.walletapp.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,6 +20,8 @@ import com.example.ewallet.models.Transaction;
 import com.example.ewallet.service.TransactionService;
 import com.example.ewallet.service.UserAccountService;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping("v1/transferTo")
 public class TransactionController {
@@ -29,6 +32,7 @@ public class TransactionController {
 	@Autowired
 	private TransactionService transactionService;
 	
+	@ApiOperation(value = "Add Money in Wallet ", response = TransactionDTO.class, tags = "transact")
 	@PostMapping("/{id}")
 	public ResponseEntity addMoney(@PathVariable("id")Long userAccountId,
 									@RequestBody TransactionDTO walletDTO) {
@@ -43,6 +47,7 @@ public class TransactionController {
 		return new ResponseEntity<TransactionDTO>(TransactionMapper.doToDTO(saved), HttpStatus.CREATED);
 	}
 	
+	@ApiOperation(value = "Pay from wallet ", response = List.class, tags = "transact")
 	@PostMapping("/{toUser}/from/{fromUser}")
 	public ResponseEntity transferMoney(@PathVariable("toUser")Long toUserAccountId,
 										@PathVariable("fromUser")Long fromUserAccountId,

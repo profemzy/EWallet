@@ -103,7 +103,7 @@ public class TransactionServiceImpl implements TransactionService {
 			transactions.add(sourceUserTransaction);
 			
 			walletDTO.setUserAccountId(toUserAccountId);
-			walletDTO.setAmount(walletDTO.getAmount());
+			walletDTO.setAmount(walletDTO.getAmount().negate());
 			destinationUserTransaction = createTransaction(TransactionMapper.dtoToDO(walletDTO));
 			transactions.add(destinationUserTransaction);
 			
