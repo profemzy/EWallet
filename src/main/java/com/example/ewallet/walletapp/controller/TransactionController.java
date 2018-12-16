@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.ewallet.datatransferobject.TransactionDTO;
 import com.example.ewallet.datatransferobject.mapper.TransactionMapper;
+import com.example.ewallet.exceptions.BalanceLowException;
+import com.example.ewallet.exceptions.UserNotFoundException;
 import com.example.ewallet.models.Transaction;
 import com.example.ewallet.service.TransactionService;
 import com.example.ewallet.service.UserAccountService;
@@ -38,6 +40,9 @@ public class TransactionController {
 		try {
 			walletDTO.setUserAccountId(userAccountId);
 			saved = transactionService.createTransaction(TransactionMapper.dtoToDO(walletDTO));
+		} catch (BalanceLowException ex) {
+			Logger.getLogger(UserAccountController.class.getName()).log(Level.SEVERE, null, ex);
+			return new ResponseEntity<String>(ex.getMessage(), HttpStatus.BAD_REQUEST);
 		} catch (Exception ex) {
 			Logger.getLogger(UserAccountController.class.getName()).log(Level.SEVERE, null, ex);
 			return new ResponseEntity<String>(ex.getMessage(), HttpStatus.BAD_REQUEST);
@@ -49,11 +54,15 @@ public class TransactionController {
 	@PostMapping("/{toUser}/from/{fromUser}")
 	public ResponseEntity transferMoney(@PathVariable("toUser") Long toUserAccountId,
 			@PathVariable("fromUser") Long fromUserAccountId, @RequestBody TransactionDTO walletDTO) {
-		List<Transaction> both = transactionService.transfer(walletDTO, toUserAccountId, fromUserAccountId);
+		List<Transaction> both;
 
-		if (both.size() == 2)
-			return new ResponseEntity<List<TransactionDTO>>(TransactionMapper.doToDTOList(both), HttpStatus.OK);
-
-		return new ResponseEntity<String>("Transaction Failed", HttpStatus.BAD_REQUEST);
+		try {
+			both = transactionService.transfer(walletDTO, toUserAccountId, fromUserAccountId);
+		} catch (UserNotFoundException e) {
+			return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		} catch (BalanceLowException e) {
+			return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity<List<TransactionDTO>>(TransactionMapper.doToDTOList(both), HttpStatus.OK);
 	}
 }

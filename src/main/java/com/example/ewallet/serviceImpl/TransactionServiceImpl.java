@@ -36,9 +36,9 @@ public class TransactionServiceImpl implements TransactionService {
 	 * to validate if a transaction ref has been used previously
 	 */
 	@Override
-	public Transaction transactionByRef(Long txnRef) throws Exception {
-		return transactionRepository.getTransactionByRef(txnRef)
-				.orElseThrow(() -> new Exception(String.format("transaction with ref '%d' doesnt exist", txnRef)));
+	public Transaction transactionByRef(Long txnRef) throws UserNotFoundException {
+		return transactionRepository.getTransactionByRef(txnRef).orElseThrow(
+				() -> new UserNotFoundException(String.format("transaction with ref '%d' doesnt exist", txnRef)));
 	}
 
 	/**
@@ -47,7 +47,7 @@ public class TransactionServiceImpl implements TransactionService {
 	 */
 	@Override
 	@Transactional(rollbackFor = RuntimeException.class)
-	public Transaction createTransaction(Transaction transaction) throws Exception {
+	public Transaction createTransaction(Transaction transaction) throws BalanceLowException {
 
 		BigDecimal balance = transactionRepository.getBalance(transaction.getUserAccount().getId());
 
@@ -91,34 +91,28 @@ public class TransactionServiceImpl implements TransactionService {
 	}
 
 	@Transactional(rollbackFor = RuntimeException.class)
-	public List<Transaction> transfer(TransactionDTO walletDTO, Long toUserAccountId, Long fromUserAccountId) {
+	public List<Transaction> transfer(TransactionDTO walletDTO, Long toUserAccountId, Long fromUserAccountId)
+			throws UserNotFoundException, BalanceLowException {
 		List<Transaction> transactions = new ArrayList<>();
 
-		try {
-			UserAccount a = accountService.userAccountByPK(fromUserAccountId);
-			UserAccount b = accountService.userAccountByPK(toUserAccountId);
-		} catch (UserNotFoundException e) {
-			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
-			transactions = Collections.emptyList();
+		if (accountService.userAccountByPK(fromUserAccountId) == null)
+			throw new UserNotFoundException(String.format("userAccount with '%d' not found ", fromUserAccountId));
+		if (accountService.userAccountByPK(toUserAccountId) == null) {
+			throw new UserNotFoundException(String.format("userAccount with '%d' not found ", toUserAccountId));
 		}
 		Transaction sourceUserTransaction;
 		Transaction destinationUserTransaction;
-		try {
 
-			walletDTO.setUserAccountId(fromUserAccountId);
-			walletDTO.setAmount(walletDTO.getAmount().negate());
-			sourceUserTransaction = createTransaction(TransactionMapper.dtoToDO(walletDTO));
-			transactions.add(sourceUserTransaction);
+		walletDTO.setUserAccountId(fromUserAccountId);
+		walletDTO.setAmount(walletDTO.getAmount().negate());
+		sourceUserTransaction = createTransaction(TransactionMapper.dtoToDO(walletDTO));
+		transactions.add(sourceUserTransaction);
 
-			walletDTO.setUserAccountId(toUserAccountId);
-			walletDTO.setAmount(walletDTO.getAmount().negate());
-			destinationUserTransaction = createTransaction(TransactionMapper.dtoToDO(walletDTO));
-			transactions.add(destinationUserTransaction);
+		walletDTO.setUserAccountId(toUserAccountId);
+		walletDTO.setAmount(walletDTO.getAmount().negate());
+		destinationUserTransaction = createTransaction(TransactionMapper.dtoToDO(walletDTO));
+		transactions.add(destinationUserTransaction);
 
-		} catch (Exception ex) {
-			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-			transactions = Collections.emptyList();
-		}
 		return transactions;
 	}
 

@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import com.example.ewallet.datatransferobject.TransactionDTO;
+import com.example.ewallet.exceptions.BalanceLowException;
+import com.example.ewallet.exceptions.UserNotFoundException;
 import com.example.ewallet.models.Transaction;
 
 /**
@@ -45,7 +47,7 @@ public interface TransactionService {
 	 * @return transaction
 	 * @throws Exception
 	 */
-	List<Transaction> transactionsByUserAccountID(Long accountId) throws Exception;
+	List<Transaction> transactionsByUserAccountID(Long accountId) throws UserNotFoundException;
 
 	/**
 	 * gets transaction by ref id
@@ -61,11 +63,11 @@ public interface TransactionService {
 	 * @return balance of user
 	 * @throws Exception
 	 */
-	BigDecimal balanceByUserAccountID(Long accountId) throws Exception;
+	BigDecimal balanceByUserAccountID(Long accountId) throws UserNotFoundException;
 
 	List<Transaction> transactions();
 
-	Transaction createTransaction(Transaction txn) throws Exception;
+	Transaction createTransaction(Transaction txn) throws BalanceLowException;
 
 	/**
 	 * Transfer Money from one user to other
@@ -75,5 +77,5 @@ public interface TransactionService {
 	 * @param fromUserAccountId
 	 * @return list of parties involved if successful
 	 */
-	List<Transaction> transfer(TransactionDTO walletDTO, Long toUserAccountId, Long fromUserAccountId);
+	List<Transaction> transfer(TransactionDTO walletDTO, Long toUserAccountId, Long fromUserAccountId) throws UserNotFoundException,BalanceLowException;
 }
