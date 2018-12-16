@@ -32,7 +32,7 @@ public class UserAccountController {
 	private UserAccountService userAccountService;
 
 	@Autowired
-	private TransactionService walletService;
+	private TransactionService transactionService;
 
 	@GetMapping
 	public ResponseEntity getUsers() {
@@ -75,19 +75,6 @@ public class UserAccountController {
 			return new ResponseEntity<String>(ex.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 		return new ResponseEntity<UserAccountDTO>(UserAccountMapper.doToDTO(saved), HttpStatus.OK);
-	}
-
-	@PostMapping("/{id}/transactions")
-	public ResponseEntity createTransaction(@PathVariable("id")Long userAccountId,@RequestBody TransactionDTO walletDTO) {
-		Transaction saved;
-		try {
-			walletDTO.setUserAccountId(userAccountId);
-			saved = walletService.createTransaction(TransactionMapper.dtoToDO(walletDTO));
-		} catch (Exception ex) {
-			Logger.getLogger(UserAccountController.class.getName()).log(Level.SEVERE, null, ex);
-			return new ResponseEntity<String>(ex.getMessage(), HttpStatus.BAD_REQUEST);
-		} 
-		return new ResponseEntity<TransactionDTO>(TransactionMapper.doToDTO(saved), HttpStatus.CREATED);
 	}
 
 }

@@ -28,7 +28,7 @@ public class Transaction {
     @NotNull
     @Column(unique = true)
     private Long transactionReference;
-    @Version //for concurrency
+    //@Version //for concurrency
     private int version;
 
     public Transaction() {

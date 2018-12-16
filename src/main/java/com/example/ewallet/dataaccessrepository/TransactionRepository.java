@@ -14,9 +14,9 @@ public interface TransactionRepository extends CrudRepository<Transaction, Long>
 	@Query(nativeQuery = true, value = "select * from transaction where transaction_reference = ?")
     Optional<Transaction> getTransactionByRef(Long txnRef);
 
-    @Query(nativeQuery = true, value = "select ifnull(sum(amount),0.00) from transaction where account_id = ?")
+    @Query(nativeQuery = true, value = "select ifnull(sum(amount),0.00) from transaction where user_account_id = ?")
     BigDecimal getBalance(Long accountId);
 
-    @Query(nativeQuery = true, value = "select * from transaction where account_id = ?")
+    @Query(nativeQuery = true, value = "select * from transaction where user_account_id = ?")
     List<Transaction> getTransactionsForUser(Long accountId);
 }

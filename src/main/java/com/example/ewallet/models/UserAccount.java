@@ -26,7 +26,7 @@ public class UserAccount {
     private Date dateCreated;
     @OneToMany(mappedBy = "userAccount", fetch = FetchType.EAGER)
     private Set<Transaction> transactions = new HashSet<>();
-    @Version
+    //@Version
     private int version;
 
     public UserAccount() {
