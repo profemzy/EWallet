@@ -24,7 +24,7 @@ public class UserAccount {
     private String email;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dateCreated;
-    @OneToMany(mappedBy = "account", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "userAccount", fetch = FetchType.EAGER)
     private Set<Transaction> transactions = new HashSet<>();
     @Version
     private int version;
