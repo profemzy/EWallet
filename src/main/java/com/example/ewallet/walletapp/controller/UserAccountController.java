@@ -77,4 +77,14 @@ public class UserAccountController {
 		return new ResponseEntity<UserAccountDTO>(UserAccountMapper.doToDTO(saved), HttpStatus.OK);
 	}
 
+	@GetMapping("/{id}/passbook")
+	public ResponseEntity getUserPassbook(@PathVariable("id") Long id) {
+		List<Transaction> passbook;
+		try {
+			passbook = transactionService.transactionsByUserAccountID(id);
+		} catch (Exception e) {
+			return new ResponseEntity<String>(e.getMessage(), HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<List<TransactionDTO>>(TransactionMapper.doToDTOList(passbook), HttpStatus.OK);
+	}
 }

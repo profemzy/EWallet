@@ -29,7 +29,7 @@ public class TransactionController {
 	private TransactionService transactionService;
 	
 	@PostMapping("/{id}")
-	public ResponseEntity createTransaction(@PathVariable("id")Long userAccountId,@RequestBody TransactionDTO walletDTO) {
+	public ResponseEntity addMoney(@PathVariable("id")Long userAccountId,@RequestBody TransactionDTO walletDTO) {
 		Transaction saved;
 		try {
 			walletDTO.setUserAccountId(userAccountId);
@@ -39,5 +39,19 @@ public class TransactionController {
 			return new ResponseEntity<String>(ex.getMessage(), HttpStatus.BAD_REQUEST);
 		} 
 		return new ResponseEntity<TransactionDTO>(TransactionMapper.doToDTO(saved), HttpStatus.CREATED);
+	}
+	
+	@PostMapping("/{toUser}/from/{fromUser}")
+	public ResponseEntity transferMoney(@PathVariable("toUser")Long toUserAccountId,@PathVariable("fromUser")Long fromUserAccountId,@RequestBody TransactionDTO walletDTO) {
+		/*Transaction saved;
+		try {
+			walletDTO.setUserAccountId(userAccountId);
+			saved = transactionService.createTransaction(TransactionMapper.dtoToDO(walletDTO));
+		} catch (Exception ex) {
+			Logger.getLogger(UserAccountController.class.getName()).log(Level.SEVERE, null, ex);
+			return new ResponseEntity<String>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+		} 
+		return new ResponseEntity<TransactionDTO>(TransactionMapper.doToDTO(saved), HttpStatus.CREATED);*/
+		return null;
 	}
 }
