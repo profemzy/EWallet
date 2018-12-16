@@ -1,5 +1,6 @@
 package com.example.ewallet.walletapp.controller;
 
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -29,7 +30,8 @@ public class TransactionController {
 	private TransactionService transactionService;
 	
 	@PostMapping("/{id}")
-	public ResponseEntity addMoney(@PathVariable("id")Long userAccountId,@RequestBody TransactionDTO walletDTO) {
+	public ResponseEntity addMoney(@PathVariable("id")Long userAccountId,
+									@RequestBody TransactionDTO walletDTO) {
 		Transaction saved;
 		try {
 			walletDTO.setUserAccountId(userAccountId);
@@ -42,16 +44,15 @@ public class TransactionController {
 	}
 	
 	@PostMapping("/{toUser}/from/{fromUser}")
-	public ResponseEntity transferMoney(@PathVariable("toUser")Long toUserAccountId,@PathVariable("fromUser")Long fromUserAccountId,@RequestBody TransactionDTO walletDTO) {
-		/*Transaction saved;
-		try {
-			walletDTO.setUserAccountId(userAccountId);
-			saved = transactionService.createTransaction(TransactionMapper.dtoToDO(walletDTO));
-		} catch (Exception ex) {
-			Logger.getLogger(UserAccountController.class.getName()).log(Level.SEVERE, null, ex);
-			return new ResponseEntity<String>(ex.getMessage(), HttpStatus.BAD_REQUEST);
-		} 
-		return new ResponseEntity<TransactionDTO>(TransactionMapper.doToDTO(saved), HttpStatus.CREATED);*/
-		return null;
+	public ResponseEntity transferMoney(@PathVariable("toUser")Long toUserAccountId,
+										@PathVariable("fromUser")Long fromUserAccountId,
+										@RequestBody TransactionDTO walletDTO) {
+		List<Transaction> both= transactionService.transfer(walletDTO,toUserAccountId,fromUserAccountId);
+		
+		if(both.size()==2)
+			return new ResponseEntity<List<TransactionDTO>>(TransactionMapper
+					.doToDTOList(both), HttpStatus.OK);
+		
+		return new ResponseEntity<String>("Transaction Failed", HttpStatus.BAD_REQUEST);
 	}
 }

@@ -3,10 +3,16 @@ package com.example.ewallet.datatransferobject;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import io.swagger.annotations.ApiModelProperty;
+
 public class TransactionDTO {
 
+	@ApiModelProperty(required = false, hidden = true)
     private Long id;
+    
+    @ApiModelProperty(required = false, hidden = true)
     private Long userAccountId;
+    
     private BigDecimal amount;
     private String details;
     private Date transactionDate;

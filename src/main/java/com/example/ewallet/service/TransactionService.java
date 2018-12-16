@@ -3,6 +3,7 @@ package com.example.ewallet.service;
 import java.math.BigDecimal;
 import java.util.List;
 
+import com.example.ewallet.datatransferobject.TransactionDTO;
 import com.example.ewallet.models.Transaction;
 
 public interface TransactionService {
@@ -14,4 +15,5 @@ public interface TransactionService {
 	BigDecimal balanceByUserAccountID(Long accountId)  throws Exception;
 	List<Transaction> transactions();
 	Transaction createTransaction(Transaction txn) throws Exception;
+	List<Transaction> transfer(TransactionDTO walletDTO,Long toUserAccountId,Long fromUserAccountId);
 }

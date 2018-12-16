@@ -26,7 +26,6 @@ public class Transaction {
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date transactionDate;
     @NotNull
-    @Column(unique = true)
     private Long transactionReference;
     //@Version //for concurrency
     private int version;
