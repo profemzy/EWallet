@@ -1,4 +1,4 @@
-package com.example.ewallet.dataaccessobject;
+package com.example.ewallet.dataaccessrepository;
 
 import org.springframework.data.repository.CrudRepository;
 

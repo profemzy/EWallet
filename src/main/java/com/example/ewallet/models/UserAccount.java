@@ -52,7 +52,7 @@ public class UserAccount {
     }
     
 
-    public UserAccount(AccountBuilder builder) {
+    public UserAccount(UserAccountBuilder builder) {
         id = builder.id;
         userName = builder.userName;
         email = builder.email;
@@ -132,7 +132,7 @@ public class UserAccount {
         return true;
     }
 
-    public static class AccountBuilder {
+    public static class UserAccountBuilder {
 
         private Long id;
         private String userName;
@@ -143,22 +143,22 @@ public class UserAccount {
             return id;
         }
 
-        public AccountBuilder setId(Long id) {
+        public UserAccountBuilder setId(Long id) {
             this.id = id;
             return this;
         }
 
-        public AccountBuilder setUserName(String userName) {
+        public UserAccountBuilder setUserName(String userName) {
             this.userName = userName;
             return this;
         }
 
-        public AccountBuilder setEmail(String email) {
+        public UserAccountBuilder setEmail(String email) {
             this.email = email;
             return this;
         }
 
-        public AccountBuilder setDateCreated(Date dateCreated) {
+        public UserAccountBuilder setDateCreated(Date dateCreated) {
             this.dateCreated = dateCreated;
             return this;
         }
