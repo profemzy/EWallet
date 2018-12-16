@@ -25,4 +25,4 @@ Write APIs for
 
 ## Screenshots
 
-![Api List](ScreenShots/apiList.PNG)
+![Api List](screenshots/apiList.PNG)
