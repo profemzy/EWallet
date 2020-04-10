@@ -33,7 +33,7 @@ public class TransactionController {
 	@Autowired
 	private TransactionService transactionService;
 
-	@ApiOperation(value = "Add Money in Wallet ", response = TransactionDTO.class, tags = "transact")
+	@ApiOperation(value = "Fund Wallet ", response = TransactionDTO.class, tags = "transact")
 	@PostMapping("/{id}")
 	public ResponseEntity addMoney(@PathVariable("id") Long userAccountId, @RequestBody TransactionDTO walletDTO) {
 		Transaction saved;
@@ -50,7 +50,7 @@ public class TransactionController {
 		return new ResponseEntity<TransactionDTO>(TransactionMapper.doToDTO(saved), HttpStatus.CREATED);
 	}
 
-	@ApiOperation(value = "Pay from wallet ", response = List.class, tags = "transact")
+	@ApiOperation(value = "Debit wallet ", response = List.class, tags = "transact")
 	@PostMapping("/{toUser}/from/{fromUser}")
 	public ResponseEntity transferMoney(@PathVariable("toUser") Long toUserAccountId,
 			@PathVariable("fromUser") Long fromUserAccountId, @RequestBody TransactionDTO walletDTO) {
