@@ -14,7 +14,7 @@ public class DefaultController implements ErrorController {
 	@RequestMapping(value = "/error", method = RequestMethod.GET, produces = MediaType.TEXT_PLAIN_VALUE)
 	@ApiOperation(value = "Link to swagger", notes = "Goto localhost:8080/swagger-ui.html", response = String.class)
 	public String handleError() {
-		return "Goto localhost:8080/swagger-ui.html";
+		return "Access API Documentation via => http://localhost:8080/swagger-ui.html";
 	}
 
 	@Override
