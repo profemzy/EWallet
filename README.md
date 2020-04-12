@@ -1,4 +1,4 @@
-# E Wallet Application
+# E Wallet Application with Docker
 
 ## Problem statement:
 
