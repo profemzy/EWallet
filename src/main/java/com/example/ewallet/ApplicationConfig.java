@@ -33,7 +33,7 @@ public class ApplicationConfig {
     
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("Simple EWallet API")
+                .title("SpringBoot EWallet API")
                 .description("API to make account and create transactions")
                 .version("1.0")
                 .build();
