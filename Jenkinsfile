@@ -24,6 +24,10 @@ node {
 	    stage('Deploy Docker Image'){
 
 	      echo "Docker Image Tag Name: ${dockerImageTag}"
+		    
+		  sh "docker stop ewallet"
+		  
+		  sh "docker rm ewallet"
 
 		  sh "docker run --name ewallet -d -p 9000:9000 ewallet:${env.BUILD_NUMBER}"
 
