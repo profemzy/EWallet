@@ -25,7 +25,7 @@ node {
 
 	      echo "Docker Image Tag Name: ${dockerImageTag}"
 
-		  sh "docker run --name ewallet -d -p 2222:2222 ewallet:${env.BUILD_NUMBER}"
+		  sh "docker run --name ewallet -d -p 9000:9000 ewallet:${env.BUILD_NUMBER}"
 
 		  // docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
 	      //    dockerImage.push("${env.BUILD_NUMBER}")
