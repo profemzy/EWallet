@@ -21,7 +21,9 @@ pipeline {
           }
 
           stage('Build Docker Image') {
-              dockerImage = docker.build("ewallet:${env.BUILD_NUMBER}")
+              steps {
+                   sh "docker build -t ewallet:latest"   
+             }
           }
      }
 }
