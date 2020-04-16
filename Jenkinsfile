@@ -22,7 +22,7 @@ pipeline {
 
           stage('Build Docker Image') {
               steps {
-                   sh "docker build -t ewallet:latest ."   
+                   sh "docker build -t ewallet:${env.BUILD_NUMBER} ."   
              }
           }
      }
