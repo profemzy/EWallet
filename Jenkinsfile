@@ -19,11 +19,5 @@ pipeline {
                 sh "./mvnw test"
              }
           }
-
-          stage('Build Docker Image') {
-              steps {
-                   sh "docker build -t ewallet:${env.BUILD_NUMBER} ."   
-             }
-          }
      }
 }
