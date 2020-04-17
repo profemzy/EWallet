@@ -19,5 +19,11 @@ pipeline {
                 sh "./mvnw test"
              }
           }
+          
+          stage('Build Docker Image') {
+              steps {
+                   echo "Build Number: {env.BUILD_NUMBER}"   
+             }
+          }
      }
 }
