@@ -14,13 +14,13 @@ pipeline {
              }
           }
           
-          stage("Unit test") {
+          stage("Test") {
              steps {
                 sh "./mvnw test"
              }
           }
           
-          stage('Build Docker Image') {
+          stage('Docker Image Build') {
               steps {
                    echo "Build Number: {env.BUILD_NUMBER}"   
              }
