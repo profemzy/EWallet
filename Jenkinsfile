@@ -22,7 +22,7 @@ pipeline {
           
           stage('Docker Image Build') {
               steps {
-                   echo "Build Number: {env.BUILD_NUMBER}"   
+                   echo "Build Number: ${env.BUILD_NUMBER}"   
              }
           }
      }
